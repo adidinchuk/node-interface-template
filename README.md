@@ -1,1 +1,1 @@
-# node-interface-template
+# home-automation-node-interface

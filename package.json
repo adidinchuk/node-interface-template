@@ -1,0 +1,24 @@
+{
+  "name": "node-api",
+  "version": "1.0.0",
+  "description": "RESTful API Node.js server for the home automation database",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "1.18.3",
+    "jsonwebtoken": "8.5.0",
+    "nodemon": "1.18.10",
+    "pg": "7.8.0",
+    "sequelize": "4.42.0",
+    "express-session": "1.15.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

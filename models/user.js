@@ -22,6 +22,7 @@ module.exports = (sequelize, type) => {
             defaultValue: 0,
         },
     }, {
-            freezeTableName: true
+            freezeTableName: true,
+            schema: 'general'
         });
 };

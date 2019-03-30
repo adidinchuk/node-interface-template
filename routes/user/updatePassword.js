@@ -1,5 +1,6 @@
 const sequelize = require('../../config/sequelize')
 const bcrypt = require('bcrypt-nodejs')
+const resConfig = require('../../config/responseConfig')
 
 module.exports = {
     api: (req, res) => {
@@ -11,28 +12,24 @@ module.exports = {
                     }
                 }).then(user => {
                     if (user != null) {
-                        console.log(req.query.password)
                         bcrypt
                             .hash(req.query.password, null, null, function (err, hashedPassword) {
                                 user.update({
                                     password: hashedPassword
                                 }).then(() => {
-                                    console.log('password updated');
-                                    res.status(200).send({ auth: true, message: 'password updated' });
+                                    res.status(200).send(resConfig.generateReponse('password updated', 1));
                                 });
                             });
                     } else {
-                        console.log('user not found');
-                        res.status(400).json('user not found');
+
+                        res.status(400).send(resConfig.generateReponse('user not found', 1));
                     }
                 }).catch(err => {
-                    console.log('problem communicating with db');
                     res.status(500).json(err);
                 });
             }
         } else {
-            console.log('invalid password');
-            res.status(400).json({ "error": "invalid password" });
+            res.status(400).send(resConfig.generateReponse("invalid password", 1));
         }
 
     }

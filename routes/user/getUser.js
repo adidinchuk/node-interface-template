@@ -1,9 +1,9 @@
 const sequelize = require('../../config/sequelize')
+const resConfig = require('../../config/responseConfig')
 
 module.exports = {
     api: (req, res) => {
         if (req.query.username == null) {
-            console.log(req.session.did)
             sequelize.User.findOne({
                 where: {
                     id: req.session.did,
@@ -11,22 +11,17 @@ module.exports = {
             })
                 .then(user => {
                     if (user != null) {
-                        console.log('user found in db');
                         user.password = "";
                         res.status(200).send({ user });
                     } else {
-                        console.log('user not found in db');
-                        res
-                            .status(404)
-                            .send({ auth: false, message: 'no user with that username' });
+                        res.status(404)
+                            .send(resConfig.generateReponse('no user with that username', 1));
                     }
                 })
                 .catch(err => {
-                    console.log('problem communicating with db');
                     res.status(500).json(err);
                 });
         } else {
-            console.log('admin ask');
             sequelize.User.findOne({
                 where: {
                     id: req.session.did,
@@ -41,28 +36,23 @@ module.exports = {
                         })
                             .then(user => {
                                 if (user != null) {
-                                    console.log('user found in db');
                                     res.status(200).send({ user });
                                 } else {
-                                    console.log('user not found in db');
-                                    res
-                                        .status(404)
-                                        .send({ auth: false, message: 'no user with that username' });
+                                    res.status(404)
+                                        .send(resConfig.generateReponse('no user with that username', 1));
                                 }
                             })
                             .catch(err => {
-                                console.log('problem communicating with db');
                                 res.status(500).json(err);
                             });
                     } else {
-                        return res.status(500).send({
-                            auth: false,
-                            message: 'username and token id do not match',
-                        });
+                        return res.status(500).send(
+                            resConfig.generateReponse('username and token id do not match', 1)
+                        );
                     }
                 } else {
                     res.status(404)
-                        .send({ auth: false, message: 'this user is not authorized' });
+                        .send(resConfig.generateReponse('this user is not authorized', 1));
                 }
             })
 

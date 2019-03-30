@@ -1,4 +1,5 @@
 const sequelize = require('../../config/sequelize')
+const resConfig = require('../../config/responseConfig')
 
 module.exports = {
     api: (req, res) => {
@@ -11,17 +12,14 @@ module.exports = {
             query.email = req.query.email
         if (req.query.username != null)
             query.username = req.query.username
-        console.log(query.username)
+
         if (req.query.username != null) {
-            console.log(req.session.did)
             sequelize.User.findOne({
                 where: {
                     id: req.session.did,
                 }
             }).then(user => {
                 if (user != null) {
-                    console.log(query.username)
-                    console.log(req.session.did)
                     sequelize.User.findOne({
                         where: {
                             username: query.username,
@@ -32,32 +30,26 @@ module.exports = {
                     }).then(user_check => {
                         if (user_check == null) {
                             user.update(query).then(() => {
-                                console.log('user updated');
-                                res.status(200).send({ auth: true, message: 'user updated' });
+                                res.status(200).send(resConfig.generateReponse('user updated', 1));
                             });
                         } else {
-                            console.log('username already exists');
-                            res.status(400).json({ "error": "username already exists" });
+                            res.status(400).send(resConfig.generateReponse('username already exists', 1));
                         }
                     })
-                } else {
-                    console.log('user not found');
-                    res.status(400).json('user not found');
-                }
+                } else
+                    res.status(400).send(resConfig.generateReponse('user not found', 1));
             }).catch(err => {
-                console.log('problem communicating with db');
                 res.status(500).json(err);
             });
         } else {
-            console.log(req.session.did)
             sequelize.User.findOne({
                 where: {
                     id: req.session.did,
                 }
             }).then(user => {
                 user.update(query).then(() => {
-                    console.log('user updated');
-                    res.status(200).send({ auth: true, message: 'user updated' });
+
+                    res.status(200).send(resConfig.generateReponse('user updated', 1));
                 });
 
             });

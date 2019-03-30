@@ -1,8 +1,6 @@
-
-
 // Authentication and Authorization Middleware
 var auth_user = function (req, res, next) {
-    if (req.session)
+    if (req.session.did)
         return next();
     else
         return res.status(500)

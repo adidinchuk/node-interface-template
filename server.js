@@ -34,6 +34,7 @@ app.use(function (req, res, next) {
 });
 
 //user routes
+app.get('/init', require('./routes/init/init').api)
 app.get('/users', auth_user, require('./routes/user/getUser').api)
 app.get('/users/update', auth_user, require('./routes/user/updateUser').api)
 app.get('/users/update/password', auth_user, require('./routes/user/updatePassword').api)

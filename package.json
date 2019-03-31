@@ -17,7 +17,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=production node build/server"
+    "prestart": "npm install",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
